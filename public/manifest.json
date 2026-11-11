@@ -1,0 +1,22 @@
+{
+  "short_name": "RISE",
+  "name": "RISE - Habit & Routine Tracker",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#FAF7F2",
+  "theme_color": "#FAF7F2",
+  "display": "standalone",
+  "orientation": "portrait"
+}
+

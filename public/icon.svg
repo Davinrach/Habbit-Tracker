@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <rect width="512" height="512" rx="128" fill="#FAF7F2"/>
+  <circle cx="256" cy="256" r="180" fill="#FFEADA"/>
+  <circle cx="256" cy="256" r="140" fill="#FBA834"/>
+  <!-- Tiger Mascot Minimal -->
+  <path d="M160 170 C135 120 180 90 205 135 Z" fill="#E1701A" />
+  <path d="M352 170 C377 120 332 90 307 135 Z" fill="#E1701A" />
+  <ellipse cx="205" cy="245" rx="16" ry="22" fill="#231815" />
+  <ellipse cx="307" cy="245" rx="16" ry="22" fill="#231815" />
+  <circle cx="210" cy="238" r="6" fill="#FFFFFF" />
+  <circle cx="312" cy="238" r="6" fill="#FFFFFF" />
+  <polygon points="242,285 270,285 256,305" fill="#E1701A" />
+  <path d="M256 305 Q235 328 215 320 M256 305 Q277 328 297 320" stroke="#38220F" stroke-width="10" stroke-linecap="round" />
+  <circle cx="175" cy="285" r="16" fill="#FF8E8E" opacity="0.6" />
+  <circle cx="337" cy="285" r="16" fill="#FF8E8E" opacity="0.6" />
+</svg>
+
