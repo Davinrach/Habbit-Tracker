@@ -82,5 +82,7 @@ export interface UserProfile {
   pushUpDailyGoal: number;
   waterDailyGoal: number;
   dailyPocketMoney: number;
+  savingsGoal?: number;
+  savingsGoalTitle?: string;
 }
 

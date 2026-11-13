@@ -65,6 +65,8 @@ const DEFAULT_USER: UserProfile = {
   pushUpDailyGoal: 50,
   waterDailyGoal: 8,
   dailyPocketMoney: 80000,
+  savingsGoal: 1000000,
+  savingsGoalTitle: 'Celengan Impian',
 };
 
 const INITIAL_HABITS: Habit[] = [];

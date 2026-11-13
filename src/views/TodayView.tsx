@@ -399,63 +399,67 @@ export const TodayView: React.FC = () => {
           </div>
         </div>
 
-        {/* Keuangan & Skala Boros Quick Card */}
+        {/* Tabungan & Skala Boros Quick Card */}
         <div 
           onClick={() => setActiveTab('finance')}
-          className="p-4 rounded-3xl bg-white border border-rise-border/80 shadow-card cursor-pointer hover:border-[#E8733E]/50 transition-all active:scale-[0.99]"
+          className="p-4 rounded-3xl bg-white border border-rise-border/80 shadow-card cursor-pointer hover:border-[#2A9D8F]/50 transition-all active:scale-[0.99]"
         >
           <div className="flex items-center justify-between mb-2.5">
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-xl bg-[#FFEADA] text-[#E8733E] flex items-center justify-center flex-shrink-0">
+              <div className="w-8 h-8 rounded-xl bg-[#EAF5EE] text-[#2A9D8F] flex items-center justify-center flex-shrink-0">
                 <Wallet className="w-4 h-4 stroke-[2.2]" />
               </div>
               <div>
-                <h4 className="text-xs font-bold text-rise-espresso">Uang Saku & Skala Boros</h4>
+                <h4 className="text-xs font-bold text-rise-espresso">Tabungan Hari Ini</h4>
                 <p className="text-[11px] font-semibold text-rise-muted mt-0.5">
-                  Terpakai: Rp {totalSpent.toLocaleString('id-ID')} / {(dailyBudget / 1000).toFixed(0)}k
+                  Jatah: Rp {dailyBudget.toLocaleString('id-ID')} · Belanja: Rp {totalSpent.toLocaleString('id-ID')}
                 </p>
               </div>
             </div>
 
             <div className="flex items-center gap-1.5">
               <span className={`text-[10px] font-bold px-2.5 py-1 rounded-xl border ${
-                totalSpent === 0
+                remainingMoney >= dailyBudget * 0.5
                   ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
-                  : totalSpent > dailyBudget
-                  ? 'bg-rose-50 text-rose-700 border-rose-200'
-                  : totalSpent > dailyBudget * 0.75
+                  : remainingMoney > 0
                   ? 'bg-amber-50 text-amber-700 border-amber-200'
-                  : 'bg-green-50 text-green-700 border-green-200'
+                  : 'bg-rose-50 text-rose-700 border-rose-200'
               }`}>
-                {totalSpent === 0
-                  ? '🌟 Utuh'
-                  : totalSpent > dailyBudget
-                  ? '🔥 Boros'
-                  : totalSpent > dailyBudget * 0.75
-                  ? '⚠️ Menipis'
-                  : '👍 Hemat'}
+                {remainingMoney >= dailyBudget * 0.6
+                  ? '🌟 Nabung Banyak'
+                  : remainingMoney >= dailyBudget * 0.3
+                  ? '👍 Nabung Aman'
+                  : remainingMoney > 0
+                  ? '⚠️ Tabungan Tipis'
+                  : remainingMoney === 0
+                  ? '🚨 Habis Pas'
+                  : '🔥 Bobol Tabungan'}
               </span>
               <ChevronRight className="w-4 h-4 text-rise-muted" />
             </div>
           </div>
 
-          {/* Progress bar */}
+          {/* Progress bar (Saving Rate) */}
           <div className="w-full bg-[#EFE9DF] h-2 rounded-full overflow-hidden mb-1.5">
             <div
               className={`h-full rounded-full transition-all duration-500 ${
-                totalSpent > dailyBudget
-                  ? 'bg-rose-500'
-                  : totalSpent > dailyBudget * 0.75
+                remainingMoney >= dailyBudget * 0.5
+                  ? 'bg-emerald-500'
+                  : remainingMoney > 0
                   ? 'bg-amber-500'
-                  : 'bg-emerald-500'
+                  : 'bg-rose-500'
               }`}
-              style={{ width: `${Math.min(100, Math.round((totalSpent / dailyBudget) * 100))}%` }}
+              style={{ width: `${Math.max(0, Math.min(100, Math.round((remainingMoney / dailyBudget) * 100)))}%` }}
             />
           </div>
 
-          <div className="flex items-center justify-between text-[10px] text-rise-muted font-medium">
-            <span>Sisa: <strong className={remainingMoney < 0 ? 'text-rose-600' : 'text-emerald-600'}>Rp {remainingMoney.toLocaleString('id-ID')}</strong></span>
-            <span className="text-[#E8733E] font-bold">+ Catat Pengeluaran →</span>
+          <div className="flex items-center justify-between text-[10px] font-medium">
+            <span className="text-rise-muted">
+              Masuk Tabungan: <strong className={remainingMoney < 0 ? 'text-rose-600 font-extrabold' : 'text-emerald-700 font-extrabold'}>
+                {remainingMoney < 0 ? `-Rp ${Math.abs(remainingMoney).toLocaleString('id-ID')}` : `+Rp ${remainingMoney.toLocaleString('id-ID')}`}
+              </strong>
+            </span>
+            <span className="text-[#2A9D8F] font-bold">+ Catat Belanja →</span>
           </div>
         </div>
       </div>

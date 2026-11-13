@@ -1,6 +1,6 @@
 import React from 'react';
 import { useApp } from '../context/AppContext';
-import { Home, Calendar, Moon, Dumbbell, Wallet } from 'lucide-react';
+import { Home, Calendar, Moon, Dumbbell, PiggyBank } from 'lucide-react';
 
 export const BottomNav: React.FC = () => {
   const { activeTab, setActiveTab } = useApp();
@@ -10,7 +10,7 @@ export const BottomNav: React.FC = () => {
     { id: 'schedule', label: 'Jadwal', icon: Calendar },
     { id: 'worship', label: 'Ibadah', icon: Moon },
     { id: 'fitness', label: 'Fitness', icon: Dumbbell },
-    { id: 'finance', label: 'Keuangan', icon: Wallet },
+    { id: 'finance', label: 'Tabungan', icon: PiggyBank },
   ] as const;
 
   return (
