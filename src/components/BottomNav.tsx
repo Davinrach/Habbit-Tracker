@@ -24,13 +24,13 @@ export const BottomNav: React.FC = () => {
             <button
               key={item.id}
               onClick={() => setActiveTab(item.id)}
-              className={`flex flex-col items-center justify-center flex-1 py-1 px-1 rounded-xl transition-all duration-200 focus:outline-none ${
+              className={`flex flex-col items-center justify-center flex-1 py-1.5 px-1 rounded-2xl transition-all duration-200 focus:outline-none active:scale-95 ${
                 isActive ? 'text-[#E8733E]' : 'text-rise-muted hover:text-rise-espresso'
               }`}
             >
               <div
-                className={`p-1 rounded-xl transition-all ${
-                  isActive ? 'bg-[#FFEADA]/80 -translate-y-0.5' : ''
+                className={`p-1.5 rounded-xl transition-all ${
+                  isActive ? 'bg-[#FFEADA]/90 text-[#E8733E] -translate-y-0.5 shadow-2xs' : ''
                 }`}
               >
                 <Icon className={`w-5 h-5 ${isActive ? 'stroke-[2.5]' : 'stroke-[1.8]'}`} />

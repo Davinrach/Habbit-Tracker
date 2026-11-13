@@ -37,9 +37,10 @@ export const ScheduleView: React.FC = () => {
             setQuickModalTab('habit');
             setIsQuickModalOpen(true);
           }}
-          className="flex items-center gap-1.5 px-3 py-1.5 bg-[#362215] text-white rounded-full text-xs font-semibold shadow-sm active:scale-95 transition-all"
+          className="flex items-center gap-1.5 px-4 py-2 bg-[#362215] text-white rounded-full text-xs font-bold shadow-sm active:scale-95 transition-all hover:bg-[#25170E]"
         >
-          <Plus className="w-4 h-4" /> Tambah
+          <Plus className="w-3.5 h-3.5 stroke-[2.5]" />
+          <span>Tambah</span>
         </button>
       </div>
 

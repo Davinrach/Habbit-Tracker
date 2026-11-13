@@ -205,7 +205,7 @@ export const SettingsView: React.FC = () => {
         {/* Save Button */}
         <button
           type="submit"
-          className="w-full py-3 bg-[#362215] text-white font-bold text-sm rounded-2xl shadow-sm active:scale-95 transition-all flex items-center justify-center gap-2"
+          className="w-full h-12 bg-[#362215] text-white font-bold text-sm rounded-2xl shadow-sm active:scale-95 transition-all flex items-center justify-center gap-2 hover:bg-[#25170E]"
         >
           {savedNotice ? (
             <>
@@ -229,11 +229,11 @@ export const SettingsView: React.FC = () => {
         </div>
 
         {/* Data Management */}
-        <div className="bg-white p-5 rounded-3xl border border-rise-border/60 shadow-card space-y-2">
+        <div className="bg-white p-5 rounded-3xl border border-rise-border/60 shadow-card space-y-2.5">
           <button
             type="button"
             onClick={handleExportData}
-            className="w-full py-2.5 px-4 bg-rise-bg border border-rise-border rounded-xl text-xs font-semibold text-rise-espresso flex items-center justify-center gap-2 hover:bg-rise-peach/30 transition-all"
+            className="w-full h-11 px-4 bg-rise-bg border border-rise-border rounded-xl text-xs font-bold text-rise-espresso flex items-center justify-center gap-2 hover:bg-rise-peach/30 transition-all active:scale-95"
           >
             <Download className="w-4 h-4" /> Cadangkan Data (Export JSON)
           </button>
@@ -241,7 +241,7 @@ export const SettingsView: React.FC = () => {
           <button
             type="button"
             onClick={handleResetData}
-            className="w-full py-2.5 px-4 bg-white border border-rose-200 rounded-xl text-xs font-semibold text-rose-600 flex items-center justify-center gap-2 hover:bg-rose-50 transition-all"
+            className="w-full h-11 px-4 bg-white border border-rose-200 rounded-xl text-xs font-bold text-rose-600 flex items-center justify-center gap-2 hover:bg-rose-50 transition-all active:scale-95"
           >
             <RotateCcw className="w-4 h-4" /> Reset ke Data Awal
           </button>

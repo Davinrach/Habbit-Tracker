@@ -114,8 +114,8 @@ export const FitnessView: React.FC = () => {
     <div className="pb-28">
       {/* Header */}
       <div className="px-6 pt-5 pb-2">
-        <h1 className="text-2xl font-bold text-rise-espresso">Fitness & Progres</h1>
-        <p className="text-xs text-rise-muted mt-0.5">Tracking Push Up harian & Tren Berat Badan</p>
+        <h1 className="text-2xl font-bold tracking-tight text-rise-espresso">Fitness & Progres</h1>
+        <p className="text-xs text-rise-muted mt-0.5 font-medium">Tracking Push Up harian & Tren Berat Badan</p>
       </div>
 
       <DateStrip />
@@ -169,7 +169,7 @@ export const FitnessView: React.FC = () => {
               <button
                 key={reps}
                 onClick={() => addPushUpSet(reps, selectedDate)}
-                className="py-2.5 rounded-xl bg-rise-bg border border-rise-border/80 font-bold text-xs text-rise-espresso hover:bg-[#FFEADA] hover:border-[#FCD2B8] active:scale-90 transition-all flex items-center justify-center gap-1 shadow-2xs"
+                className="h-11 rounded-xl bg-rise-bg border border-rise-border/80 font-bold text-xs text-rise-espresso hover:bg-[#FFEADA] hover:border-[#FCD2B8] active:scale-95 transition-all flex items-center justify-center gap-1 shadow-2xs"
               >
                 <span>+{reps}</span>
               </button>
@@ -244,84 +244,103 @@ export const FitnessView: React.FC = () => {
                 <Scale className="w-6 h-6 stroke-[2]" />
               </div>
               <div>
-                <h2 className="text-base font-bold text-rise-espresso">Tracking Berat Badan</h2>
+                <h2 className="text-base font-bold text-rise-espresso">Berat Badan</h2>
                 <p className="text-xs text-rise-muted font-medium">Target: {user.weightGoalKg} kg</p>
               </div>
             </div>
 
             <button
               onClick={() => setIsAddingWeight(!isAddingWeight)}
-              className="px-3 py-1.5 bg-[#362215] text-white rounded-full text-xs font-semibold active:scale-95 transition-all shadow-sm flex items-center gap-1"
+              className="px-4 py-2 bg-[#362215] text-white rounded-full text-xs font-bold active:scale-95 transition-all shadow-sm flex items-center gap-1.5 hover:bg-[#25170E]"
             >
-              <Plus className="w-3.5 h-3.5" /> Catat
+              <Plus className="w-3.5 h-3.5 stroke-[2.5]" />
+              <span>{isAddingWeight ? 'Tutup' : 'Catat'}</span>
             </button>
           </div>
 
           {/* Weight Input Box Toggle */}
           {isAddingWeight && (
-            <form onSubmit={handleSaveWeight} className="p-3.5 bg-rise-bg rounded-2xl mb-4 border border-rise-border">
-              <span className="text-xs font-bold text-rise-espresso block mb-2">
-                Catat Timbangan ({selectedDate})
-              </span>
-              <div className="flex items-center gap-2 mb-2">
-                <input
-                  type="number"
-                  step="0.1"
-                  placeholder="Berat (kg), cth: 68.5"
-                  value={weightInput}
-                  onChange={(e) => setWeightInput(e.target.value)}
-                  className="flex-1 px-3 py-2 bg-white rounded-xl border border-rise-border text-sm font-semibold text-rise-espresso focus:outline-none focus:border-[#558B55]"
-                  autoFocus
-                  required
-                />
+            <form onSubmit={handleSaveWeight} className="p-4 bg-rise-bg rounded-2xl mb-4 border border-rise-border/80 shadow-xs space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-bold text-rise-espresso">
+                  Catat Timbangan ({selectedDate})
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setIsAddingWeight(false)}
+                  className="text-xs font-semibold text-rise-muted hover:text-rose-500 py-1 px-2 rounded-lg"
+                >
+                  Batal
+                </button>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <div className="relative flex-1">
+                  <input
+                    type="number"
+                    step="0.1"
+                    placeholder="Contoh: 68.5"
+                    value={weightInput}
+                    onChange={(e) => setWeightInput(e.target.value)}
+                    className="w-full h-12 px-3.5 pr-9 bg-white rounded-xl border border-rise-border text-sm font-semibold text-rise-espresso focus:outline-none focus:border-rise-espresso"
+                    autoFocus
+                    required
+                  />
+                  <span className="absolute right-3.5 top-3.5 text-xs font-bold text-rise-muted pointer-events-none">kg</span>
+                </div>
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-[#558B55] text-white rounded-xl text-xs font-bold shadow-sm active:scale-95"
+                  className="h-12 px-5 bg-[#362215] text-white rounded-xl text-xs font-bold shadow-sm active:scale-95 flex items-center justify-center flex-shrink-0 hover:bg-[#25170E] transition-all"
                 >
                   Simpan
                 </button>
               </div>
+
               <input
                 type="text"
                 placeholder="Catatan opsional (misal: setelah olahraga)"
                 value={weightNote}
                 onChange={(e) => setWeightNote(e.target.value)}
-                className="w-full px-3 py-1.5 bg-white rounded-xl border border-rise-border text-xs text-rise-espresso focus:outline-none"
+                className="w-full h-11 px-3.5 bg-white rounded-xl border border-rise-border text-xs text-rise-espresso focus:outline-none focus:border-rise-espresso"
               />
             </form>
           )}
 
           {/* Big Weight Numbers & BMI */}
           <div className="grid grid-cols-2 gap-3 mb-5">
-            <div className="p-3.5 bg-rise-bg/60 rounded-2xl border border-rise-border/60">
-              <span className="text-[11px] font-semibold text-rise-muted block">Timbangan Terakhir</span>
-              <div className="flex items-baseline gap-1 mt-1">
-                <span className="text-2xl font-extrabold text-rise-espresso">{latestWeight ?? '--'}</span>
-                {latestWeight && <span className="text-xs font-bold text-rise-muted">kg</span>}
-                {hasWeightData && parseFloat(weightDiff) !== 0 && (
-                  <span
-                    className={`text-[11px] font-bold ml-1 ${
-                      parseFloat(weightDiff) < 0 ? 'text-green-600' : 'text-amber-600'
-                    }`}
-                  >
-                    {parseFloat(weightDiff) > 0 ? `+${weightDiff}` : weightDiff} kg
-                  </span>
-                )}
+            <div className="p-3.5 bg-rise-bg/60 rounded-2xl border border-rise-border/60 flex flex-col justify-between">
+              <div>
+                <span className="text-[11px] font-semibold text-rise-muted block">Timbangan Terakhir</span>
+                <div className="flex items-baseline gap-1 mt-1">
+                  <span className="text-2xl font-extrabold text-rise-espresso">{latestWeight ?? '--'}</span>
+                  {latestWeight && <span className="text-xs font-bold text-rise-muted">kg</span>}
+                  {hasWeightData && parseFloat(weightDiff) !== 0 && (
+                    <span
+                      className={`text-[11px] font-bold ml-1 ${
+                        parseFloat(weightDiff) < 0 ? 'text-green-600' : 'text-amber-600'
+                      }`}
+                    >
+                      {parseFloat(weightDiff) > 0 ? `+${weightDiff}` : weightDiff} kg
+                    </span>
+                  )}
+                </div>
               </div>
-              <span className="text-[10px] text-rise-muted mt-1 block font-medium">
+              <span className="text-[10px] text-rise-muted mt-2 block font-medium">
                 {hasWeightData ? `Selisih ke target: ${diffToGoal} kg` : `Target: ${user.weightGoalKg} kg`}
               </span>
             </div>
 
-            <div className="p-3.5 bg-rise-bg/60 rounded-2xl border border-rise-border/60">
-              <span className="text-[11px] font-semibold text-rise-muted block">Indeks Massa Tubuh (BMI)</span>
-              <div className="flex items-baseline gap-1.5 mt-1">
-                <span className="text-2xl font-extrabold text-rise-espresso">{bmi}</span>
-                <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md ${bmiColor}`}>
-                  {bmiCategory}
-                </span>
+            <div className="p-3.5 bg-rise-bg/60 rounded-2xl border border-rise-border/60 flex flex-col justify-between">
+              <div>
+                <span className="text-[11px] font-semibold text-rise-muted block">Indeks Massa Tubuh (BMI)</span>
+                <div className="flex items-baseline gap-1.5 mt-1 flex-wrap">
+                  <span className="text-2xl font-extrabold text-rise-espresso">{bmi}</span>
+                  <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md ${bmiColor}`}>
+                    {bmiCategory}
+                  </span>
+                </div>
               </div>
-              <span className="text-[10px] text-rise-muted mt-1 block font-medium">
+              <span className="text-[10px] text-rise-muted mt-2 block font-medium">
                 Tinggi Badan: {user.heightCm} cm
               </span>
             </div>

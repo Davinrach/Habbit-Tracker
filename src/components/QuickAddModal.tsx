@@ -235,11 +235,11 @@ export const QuickAddModal: React.FC = () => {
                   placeholder="Jumlah reps"
                   value={pushUpReps}
                   onChange={(e) => setPushUpReps(e.target.value)}
-                  className="flex-1 px-3.5 py-2.5 rounded-xl bg-rise-bg border border-rise-border text-sm font-semibold text-rise-espresso focus:outline-none"
+                  className="flex-1 h-11 px-3.5 bg-rise-bg rounded-xl border border-rise-border text-sm font-semibold text-rise-espresso focus:outline-none"
                 />
                 <button
                   onClick={() => handleAddPushUp(parseInt(pushUpReps) || 10)}
-                  className="px-5 py-2.5 bg-[#E25822] text-white font-bold text-xs rounded-xl shadow-sm active:scale-95"
+                  className="h-11 px-5 bg-[#E25822] text-white font-bold text-xs rounded-xl shadow-sm active:scale-95 hover:bg-[#CC4714] transition-all flex items-center justify-center"
                 >
                   Catat
                 </button>
@@ -261,7 +261,7 @@ export const QuickAddModal: React.FC = () => {
                 placeholder="68.5"
                 value={weightKg}
                 onChange={(e) => setWeightKg(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-rise-bg border border-rise-border text-lg font-bold text-rise-espresso focus:outline-none"
+                className="w-full h-12 px-3.5 rounded-xl bg-rise-bg border border-rise-border text-lg font-bold text-rise-espresso focus:outline-none"
                 required
                 autoFocus
               />
@@ -275,12 +275,12 @@ export const QuickAddModal: React.FC = () => {
                 placeholder="Misal: Timbang pagi sebelum sarapan"
                 value={weightNote}
                 onChange={(e) => setWeightNote(e.target.value)}
-                className="w-full px-3.5 py-2 rounded-xl bg-rise-bg border border-rise-border text-xs text-rise-espresso focus:outline-none"
+                className="w-full h-11 px-3.5 rounded-xl bg-rise-bg border border-rise-border text-xs text-rise-espresso focus:outline-none"
               />
             </div>
             <button
               type="submit"
-              className="w-full py-3 bg-[#558B55] text-white font-bold text-sm rounded-xl shadow-sm active:scale-95 transition-all"
+              className="w-full h-12 bg-[#362215] text-white font-bold text-sm rounded-xl shadow-sm active:scale-95 transition-all hover:bg-[#25170E] flex items-center justify-center"
             >
               Simpan Timbangan
             </button>

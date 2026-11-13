@@ -268,14 +268,14 @@ export const TodayView: React.FC = () => {
             <div className="flex items-center gap-1.5 mt-3 pt-2 border-t border-rise-border/50">
               <button
                 onClick={handleWaterSub}
-                className="w-8 h-8 rounded-lg bg-rise-bg border border-rise-border flex items-center justify-center text-rise-espresso active:scale-90 transition-transform font-bold"
+                className="w-9 h-9 rounded-xl bg-rise-bg border border-rise-border flex items-center justify-center text-rise-espresso active:scale-90 transition-transform font-bold flex-shrink-0"
                 title="Kurangi 1 gelas"
               >
                 <Minus className="w-3.5 h-3.5" />
               </button>
               <button
                 onClick={handleWaterAdd}
-                className="flex-1 py-1.5 bg-[#E7784E] text-white rounded-lg text-xs font-bold shadow-2xs active:scale-95 transition-transform flex items-center justify-center gap-1"
+                className="h-9 flex-1 bg-[#E7784E] text-white rounded-xl text-xs font-bold shadow-2xs active:scale-95 transition-transform flex items-center justify-center gap-1 hover:bg-[#D96B43]"
                 title="Tambah 1 gelas"
               >
                 <Plus className="w-3.5 h-3.5 stroke-[2.5]" />
@@ -308,13 +308,13 @@ export const TodayView: React.FC = () => {
             <div className="flex items-center gap-1.5 mt-3 pt-2 border-t border-rise-border/50">
               <button
                 onClick={() => handlePushUpAdd(5)}
-                className="flex-1 py-1.5 bg-rise-bg border border-rise-border hover:bg-[#FFEADA] text-rise-espresso rounded-lg text-xs font-bold active:scale-95 transition-transform"
+                className="h-9 flex-1 bg-rise-bg border border-rise-border hover:bg-[#FFEADA] text-rise-espresso rounded-xl text-xs font-bold active:scale-95 transition-transform flex items-center justify-center"
               >
                 +5
               </button>
               <button
                 onClick={() => handlePushUpAdd(10)}
-                className="flex-1 py-1.5 bg-[#E25822] text-white rounded-lg text-xs font-bold shadow-2xs active:scale-95 transition-transform"
+                className="h-9 flex-1 bg-[#E25822] text-white rounded-xl text-xs font-bold shadow-2xs active:scale-95 transition-transform flex items-center justify-center hover:bg-[#CC4714]"
               >
                 +10
               </button>

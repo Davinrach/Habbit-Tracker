@@ -49,3 +49,4 @@ Aplikasi mobile web habit tracker modern, minimalis, dan hangat (*warm cozy mini
    ```
 
 4. Buka browser di `http://localhost:5173`.
+

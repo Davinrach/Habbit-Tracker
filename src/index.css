@@ -11,6 +11,19 @@
   }
 }
 
+/* Safe area insets for iOS devices (Notch / Dynamic Island & Home Indicator) */
+@layer utilities {
+  .pt-safe {
+    padding-top: max(env(safe-area-inset-top, 0px), 16px);
+  }
+  .pb-safe {
+    padding-bottom: max(env(safe-area-inset-bottom, 0px), 14px);
+  }
+  .bottom-safe-fab {
+    bottom: calc(max(env(safe-area-inset-bottom, 0px), 14px) + 64px);
+  }
+}
+
 /* Hide scrollbar for clean mobile UI */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
@@ -19,4 +32,3 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
-

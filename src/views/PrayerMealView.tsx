@@ -157,8 +157,8 @@ export const PrayerMealView: React.FC = () => {
                 </div>
 
                 <div className="flex items-center gap-2">
-                  <span className={`text-xs font-semibold px-2 py-1 rounded-lg ${
-                    isDone ? 'bg-[#E6F5F2] text-[#2A9D8F]' : 'bg-gray-100 text-gray-500'
+                  <span className={`text-xs px-2.5 py-1 rounded-xl font-bold transition-colors ${
+                    isDone ? 'bg-[#E6F5F2] text-[#2A9D8F]' : 'bg-rise-bg text-rise-muted border border-rise-border/60'
                   }`}>
                     {isDone ? 'Sudah Sholat' : 'Belum'}
                   </span>
@@ -283,15 +283,17 @@ export const PrayerMealView: React.FC = () => {
                         setEditingMeal(isEditing ? null : meal.key);
                         setMenuInput(data?.note || '');
                       }}
-                      className="p-1.5 text-rise-muted hover:text-rise-espresso hover:bg-rise-bg rounded-lg transition-colors"
+                      className="p-2 text-rise-muted hover:text-rise-espresso hover:bg-rise-bg rounded-xl transition-colors"
                       title="Tulis Menu"
                     >
                       <Edit2 className="w-3.5 h-3.5" />
                     </button>
                     <button
                       onClick={() => toggleMeal(meal.key, selectedDate)}
-                      className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all active:scale-95 ${
-                        isEaten ? 'bg-[#FFEADA] text-[#D96B43]' : 'bg-gray-100 text-gray-500'
+                      className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all active:scale-95 ${
+                        isEaten
+                          ? 'bg-[#FFEADA] text-[#D96B43] shadow-2xs'
+                          : 'bg-rise-bg text-rise-espresso border border-rise-border/80 hover:bg-white'
                       }`}
                     >
                       {isEaten ? '✓ Selesai' : 'Tandai Selesai'}
@@ -307,14 +309,14 @@ export const PrayerMealView: React.FC = () => {
                       placeholder="Tulis menu (cth: Oatmeal & Buah)"
                       value={menuInput}
                       onChange={(e) => setMenuInput(e.target.value)}
-                      className="flex-1 px-3 py-1.5 text-xs font-medium bg-rise-bg rounded-xl border border-rise-border text-rise-espresso focus:outline-none"
+                      className="flex-1 h-10 px-3.5 text-xs font-semibold bg-rise-bg rounded-xl border border-rise-border text-rise-espresso focus:outline-none focus:border-rise-espresso"
                     />
                     <button
                       onClick={() => {
                         toggleMeal(meal.key, selectedDate, menuInput);
                         setEditingMeal(null);
                       }}
-                      className="px-3 py-1.5 bg-[#362215] text-white rounded-xl text-xs font-bold shadow-2xs active:scale-95 flex items-center gap-1"
+                      className="h-10 px-4 bg-[#362215] text-white rounded-xl text-xs font-bold shadow-2xs active:scale-95 flex items-center gap-1 hover:bg-[#25170E] transition-all"
                     >
                       <Check className="w-3.5 h-3.5" /> Simpan
                     </button>

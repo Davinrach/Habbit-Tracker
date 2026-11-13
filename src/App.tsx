@@ -31,11 +31,14 @@ const AppContent: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#FAF7F2] text-rise-espresso flex flex-col selection:bg-rise-peach">
+      {/* iOS Dynamic Island & Status Bar safe backdrop shield */}
+      <div className="sticky top-0 z-40 w-full h-[env(safe-area-inset-top,0px)] bg-[#FAF7F2]/95 backdrop-blur-md pointer-events-none" />
+
       {/* Centered Responsive Container (Mobile-First) */}
-      <main className="w-full max-w-xl mx-auto flex-1 flex flex-col relative px-3 sm:px-6">
+      <main className="w-full max-w-xl mx-auto flex-1 flex flex-col relative px-3 sm:px-6 pt-safe">
         
         {/* Dynamic View Content */}
-        <div className="flex-1 w-full pt-2">
+        <div className="flex-1 w-full">
           {renderActiveView()}
         </div>
 
@@ -49,7 +52,7 @@ const AppContent: React.FC = () => {
       </main>
 
       {/* Persistent Bottom Navigation (Docked cleanly at the bottom) */}
-      <div className="sticky bottom-0 z-40 w-full bg-white/95 backdrop-blur-md border-t border-rise-border/80 shadow-xs">
+      <div className="sticky bottom-0 z-40 w-full bg-white/95 backdrop-blur-md border-t border-rise-border/80 shadow-xs pb-safe">
         <div className="max-w-xl mx-auto">
           <BottomNav />
         </div>
