@@ -7,10 +7,16 @@ export const InstallPromptBanner: React.FC = () => {
   const [isStandalone, setIsStandalone] = useState(false);
 
   useEffect(() => {
-    // Check if already running in standalone mode (installed)
-    if (window.matchMedia('(display-mode: standalone)').matches || (window.navigator as any).standalone) {
-      setIsStandalone(true);
-      return;
+    try {
+      if (
+        (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) ||
+        (window.navigator as any)?.standalone
+      ) {
+        setIsStandalone(true);
+        return;
+      }
+    } catch {
+      // ignore
     }
 
     const handler = (e: Event) => {

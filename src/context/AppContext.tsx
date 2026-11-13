@@ -56,6 +56,17 @@ const getTodayString = () => {
   return `${year}-${month}-${day}`;
 };
 
+const safeGetJSON = <T,>(key: string, fallback: T): T => {
+  try {
+    const saved = localStorage.getItem(key);
+    if (!saved) return fallback;
+    const parsed = JSON.parse(saved);
+    return parsed !== null && parsed !== undefined ? parsed : fallback;
+  } catch {
+    return fallback;
+  }
+};
+
 const DEFAULT_USER: UserProfile = {
   name: 'Budi',
   avatar: 'tiger',
@@ -79,12 +90,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   // User Profile
   const [user, setUser] = useState<UserProfile>(() => {
-    const saved = localStorage.getItem('rise_user_v2');
-    if (saved) {
-      const parsed = JSON.parse(saved);
-      return { ...DEFAULT_USER, ...parsed };
-    }
-    return DEFAULT_USER;
+    const parsed = safeGetJSON<Partial<UserProfile>>('rise_user_v2', {});
+    return { ...DEFAULT_USER, ...parsed };
   });
 
   useEffect(() => {
@@ -97,8 +104,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   // Habits (Clean Slate)
   const [habits, setHabits] = useState<Habit[]>(() => {
-    const saved = localStorage.getItem('rise_habits_v2');
-    return saved ? JSON.parse(saved) : INITIAL_HABITS;
+    const parsed = safeGetJSON<Habit[]>('rise_habits_v2', INITIAL_HABITS);
+    return Array.isArray(parsed) ? parsed : INITIAL_HABITS;
   });
 
   useEffect(() => {
@@ -150,14 +157,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   // Prayer status
   const [prayerStatus, setPrayerStatus] = useState<Record<string, DayPrayerStatus>>(() => {
-    const saved = localStorage.getItem('rise_prayers');
-    return saved ? JSON.parse(saved) : {
-      [getTodayString()]: { subuh: true, dzuhur: false, ashar: false, maghrib: false, isya: false }
-    };
+    return safeGetJSON<Record<string, DayPrayerStatus>>('rise_prayers_v2', {});
   });
 
   useEffect(() => {
-    localStorage.setItem('rise_prayers', JSON.stringify(prayerStatus));
+    localStorage.setItem('rise_prayers_v2', JSON.stringify(prayerStatus));
   }, [prayerStatus]);
 
   const togglePrayer = (prayerName: keyof DayPrayerStatus, date: string = selectedDate) => {
@@ -175,8 +179,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   // Meal Status
   const [mealStatus, setMealStatus] = useState<Record<string, DayMealStatus>>(() => {
-    const saved = localStorage.getItem('rise_meals_v2');
-    return saved ? JSON.parse(saved) : {};
+    return safeGetJSON<Record<string, DayMealStatus>>('rise_meals_v2', {});
   });
 
   useEffect(() => {
@@ -229,8 +232,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   // Push-Up Sets (Clean Slate)
   const [pushUpSets, setPushUpSets] = useState<PushUpSet[]>(() => {
-    const saved = localStorage.getItem('rise_pushups_v2');
-    return saved ? JSON.parse(saved) : [];
+    const parsed = safeGetJSON<PushUpSet[]>('rise_pushups_v2', []);
+    return Array.isArray(parsed) ? parsed : [];
   });
 
   useEffect(() => {
@@ -253,8 +256,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   // Weight Records (Clean Slate)
   const [weightRecords, setWeightRecords] = useState<WeightRecord[]>(() => {
-    const saved = localStorage.getItem('rise_weights_v2');
-    return saved ? JSON.parse(saved) : [];
+    const parsed = safeGetJSON<WeightRecord[]>('rise_weights_v2', []);
+    return Array.isArray(parsed) ? parsed : [];
   });
 
   useEffect(() => {
@@ -281,8 +284,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   // Daily Expenses (Clean Slate)
   const [expenses, setExpenses] = useState<ExpenseRecord[]>(() => {
-    const saved = localStorage.getItem('rise_expenses_v1');
-    return saved ? JSON.parse(saved) : [];
+    const parsed = safeGetJSON<ExpenseRecord[]>('rise_expenses_v1', []);
+    return Array.isArray(parsed) ? parsed : [];
   });
 
   useEffect(() => {
