@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { DateStrip } from '../components/DateStrip';
 import { getNextPrayer } from '../utils/prayer';
+import { setAndroidAlarm } from '../utils/alarm';
 import { 
   Moon, 
   Sun, 
@@ -14,7 +15,8 @@ import {
   Minus, 
   GlassWater,
   Edit2,
-  Check
+  Check,
+  Bell
 } from 'lucide-react';
 import { DayPrayerStatus, MealType } from '../types';
 
@@ -33,6 +35,13 @@ export const PrayerMealView: React.FC = () => {
 
   const [editingMeal, setEditingMeal] = useState<MealType | null>(null);
   const [menuInput, setMenuInput] = useState('');
+  const [toastMsg, setToastMsg] = useState<string | null>(null);
+
+  const handleSetAlarm = (timeStr: string, title: string) => {
+    const res = setAndroidAlarm(timeStr, title);
+    setToastMsg(res.message);
+    setTimeout(() => setToastMsg(null), 3500);
+  };
 
   const nextPrayer = getNextPrayer(prayerTimes);
   const currentPrayers = prayerStatus[selectedDate] || {
@@ -107,6 +116,15 @@ export const PrayerMealView: React.FC = () => {
             <span>Metode: Kemenag RI (Offline)</span>
             <span className="font-semibold text-rise-peach">Terbit: {prayerTimes.terbit}</span>
           </div>
+
+          <button
+            onClick={() => handleSetAlarm(nextPrayer.time, `Sholat ${nextPrayer.name}`)}
+            className="mt-3 w-full py-2.5 px-3 bg-white/15 hover:bg-white/20 active:scale-98 rounded-2xl text-xs font-bold text-white flex items-center justify-center gap-2 border border-white/20 transition-all shadow-xs"
+            title="Buka Aplikasi Jam Android untuk Pasang Alarm"
+          >
+            <Bell className="w-3.5 h-3.5 text-rise-peach" />
+            <span>Pasang Alarm Sholat ({nextPrayer.time}) ke HP</span>
+          </button>
         </div>
       </div>
 
@@ -157,6 +175,17 @@ export const PrayerMealView: React.FC = () => {
                 </div>
 
                 <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleSetAlarm(prayer.time, `Sholat ${prayer.name}`);
+                    }}
+                    className="p-2 text-rise-muted hover:text-[#E8733E] hover:bg-[#FFEADA]/60 rounded-xl transition-all active:scale-90"
+                    title={`Pasang Alarm Jam HP untuk Sholat ${prayer.name} (${prayer.time})`}
+                  >
+                    <Bell className="w-4 h-4" />
+                  </button>
                   <span className={`text-xs px-2.5 py-1 rounded-xl font-bold transition-colors ${
                     isDone ? 'bg-[#E6F5F2] text-[#2A9D8F]' : 'bg-rise-bg text-rise-muted border border-rise-border/60'
                   }`}>
@@ -279,6 +308,14 @@ export const PrayerMealView: React.FC = () => {
 
                   <div className="flex items-center gap-1.5 flex-shrink-0">
                     <button
+                      type="button"
+                      onClick={() => handleSetAlarm(meal.preset, meal.label)}
+                      className="p-2 text-rise-muted hover:text-[#E8733E] hover:bg-[#FFEADA]/60 rounded-xl transition-all active:scale-90"
+                      title={`Pasang Alarm Jam HP untuk ${meal.label} (${meal.preset})`}
+                    >
+                      <Bell className="w-3.5 h-3.5" />
+                    </button>
+                    <button
                       onClick={() => {
                         setEditingMeal(isEditing ? null : meal.key);
                         setMenuInput(data?.note || '');
@@ -327,6 +364,14 @@ export const PrayerMealView: React.FC = () => {
           })}
         </div>
       </div>
+
+      {/* Floating Toast Feedback for Android Alarm */}
+      {toastMsg && (
+        <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-sm bg-[#362215] text-white px-4 py-3 rounded-2xl shadow-float border border-white/10 flex items-center gap-3 animate-fade-in text-xs font-semibold">
+          <Bell className="w-4 h-4 text-[#E8733E] flex-shrink-0 animate-bounce" />
+          <span className="flex-1">{toastMsg}</span>
+        </div>
+      )}
     </div>
   );
 };

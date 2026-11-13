@@ -1,14 +1,22 @@
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { DateStrip } from '../components/DateStrip';
-import { Plus, Trash2, CheckCircle2, Clock, Sparkles, Edit3 } from 'lucide-react';
+import { Plus, Trash2, CheckCircle2, Clock, Sparkles, Edit3, Bell } from 'lucide-react';
 import { EditHabitModal } from '../components/EditHabitModal';
+import { setAndroidAlarm } from '../utils/alarm';
 import { Habit } from '../types';
 
 export const ScheduleView: React.FC = () => {
   const { habits, toggleHabit, deleteHabit, selectedDate, setIsQuickModalOpen, setQuickModalTab } = useApp();
   const [filter, setFilter] = useState<string>('all');
   const [editingHabit, setEditingHabit] = useState<Habit | null>(null);
+  const [toastMsg, setToastMsg] = useState<string | null>(null);
+
+  const handleSetAlarm = (timeStr: string, title: string) => {
+    const res = setAndroidAlarm(timeStr, title);
+    setToastMsg(res.message);
+    setTimeout(() => setToastMsg(null), 3500);
+  };
 
   const categories: { id: string; label: string }[] = [
     { id: 'all', label: 'Semua' },
@@ -119,6 +127,16 @@ export const ScheduleView: React.FC = () => {
                 </div>
 
                 <div className="flex items-center gap-1">
+                  {habit.timeTarget && (
+                    <button
+                      onClick={() => handleSetAlarm(habit.timeTarget!, habit.title)}
+                      className="p-2 text-rise-muted hover:text-[#E8733E] hover:bg-[#FFEADA]/60 rounded-xl transition-all active:scale-90"
+                      title={`Pasang Alarm Jam HP untuk ${habit.title} (${habit.timeTarget})`}
+                    >
+                      <Bell className="w-4 h-4" />
+                    </button>
+                  )}
+
                   <button
                     onClick={() => setEditingHabit(habit)}
                     className="p-2 text-rise-muted hover:text-rise-espresso hover:bg-rise-bg rounded-xl transition-all"
@@ -147,6 +165,14 @@ export const ScheduleView: React.FC = () => {
           habit={editingHabit}
           onClose={() => setEditingHabit(null)}
         />
+      )}
+
+      {/* Floating Toast Feedback for Android Alarm */}
+      {toastMsg && (
+        <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-sm bg-[#362215] text-white px-4 py-3 rounded-2xl shadow-float border border-white/10 flex items-center gap-3 animate-fade-in text-xs font-semibold">
+          <Bell className="w-4 h-4 text-[#E8733E] flex-shrink-0 animate-bounce" />
+          <span className="flex-1">{toastMsg}</span>
+        </div>
       )}
     </div>
   );

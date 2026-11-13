@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Header } from '../components/Header';
 import { DateStrip } from '../components/DateStrip';
 import { TimelineRoutine } from '../components/TimelineRoutine';
 import { useApp } from '../context/AppContext';
 import { getNextPrayer } from '../utils/prayer';
 import { sound } from '../utils/sound';
+import { setAndroidAlarm } from '../utils/alarm';
 import { 
   Moon, 
   Dumbbell, 
@@ -13,7 +14,8 @@ import {
   Plus, 
   Minus, 
   Check, 
-  ChevronRight
+  ChevronRight,
+  Bell
 } from 'lucide-react';
 import { DayPrayerStatus } from '../types';
 
@@ -32,6 +34,14 @@ export const TodayView: React.FC = () => {
     user,
     setActiveTab,
   } = useApp();
+
+  const [toastMsg, setToastMsg] = useState<string | null>(null);
+
+  const handleSetAlarm = (timeStr: string, title: string) => {
+    const res = setAndroidAlarm(timeStr, title);
+    setToastMsg(res.message);
+    setTimeout(() => setToastMsg(null), 3500);
+  };
 
   const nextPrayer = getNextPrayer(prayerTimes);
   const todayPrayers = prayerStatus[selectedDate] || {
@@ -206,13 +216,22 @@ export const TodayView: React.FC = () => {
                 </p>
               </div>
             </div>
-            <button
-              onClick={() => setActiveTab('worship')}
-              className="text-rise-muted hover:text-rise-espresso p-1"
-              title="Lihat Tab Ibadah"
-            >
-              <ChevronRight className="w-4 h-4" />
-            </button>
+            <div className="flex items-center gap-1">
+              <button
+                onClick={() => handleSetAlarm(nextPrayer.time, `Sholat ${nextPrayer.name}`)}
+                className="p-1.5 text-rise-muted hover:text-[#E8733E] hover:bg-[#FFEADA]/60 rounded-lg transition-colors active:scale-90"
+                title={`Pasang Alarm Jam HP untuk ${nextPrayer.name} (${nextPrayer.time})`}
+              >
+                <Bell className="w-4 h-4 text-[#E8733E]" />
+              </button>
+              <button
+                onClick={() => setActiveTab('worship')}
+                className="text-rise-muted hover:text-rise-espresso p-1.5 rounded-lg hover:bg-rise-bg transition-colors"
+                title="Lihat Tab Ibadah"
+              >
+                <ChevronRight className="w-4 h-4" />
+              </button>
+            </div>
           </div>
 
           {/* 5 Sholat Quick Toggle Buttons */}
@@ -372,6 +391,14 @@ export const TodayView: React.FC = () => {
 
       {/* 5. Daily Routine Timeline Section */}
       <TimelineRoutine />
+
+      {/* Floating Toast Feedback for Android Alarm */}
+      {toastMsg && (
+        <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-sm bg-[#362215] text-white px-4 py-3 rounded-2xl shadow-float border border-white/10 flex items-center gap-3 animate-fade-in text-xs font-semibold">
+          <Bell className="w-4 h-4 text-[#E8733E] flex-shrink-0 animate-bounce" />
+          <span className="flex-1">{toastMsg}</span>
+        </div>
+      )}
     </div>
   );
 };
