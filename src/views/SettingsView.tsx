@@ -1,7 +1,21 @@
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { INDONESIAN_CITIES } from '../utils/prayer';
-import { User, MapPin, Target, Smartphone, Download, RotateCcw, Check } from 'lucide-react';
+import { 
+  User, 
+  MapPin, 
+  Target, 
+  Smartphone, 
+  Download, 
+  RotateCcw, 
+  Check,
+  HelpCircle,
+  Wallet,
+  Bell,
+  Info,
+  ChevronDown,
+  ChevronUp
+} from 'lucide-react';
 import { Avatar } from '../components/Avatar';
 
 export const SettingsView: React.FC = () => {
@@ -15,6 +29,11 @@ export const SettingsView: React.FC = () => {
   const [waterGoalInput, setWaterGoalInput] = useState(user.waterDailyGoal.toString());
   const [pocketMoneyInput, setPocketMoneyInput] = useState((user.dailyPocketMoney || 80000).toString());
   const [savedNotice, setSavedNotice] = useState(false);
+  const [expandedTopic, setExpandedTopic] = useState<string | null>('pwa');
+
+  const toggleTopic = (id: string) => {
+    setExpandedTopic((prev) => (prev === id ? null : id));
+  };
 
   const handleSave = (e: React.FormEvent) => {
     e.preventDefault();
@@ -248,19 +267,137 @@ export const SettingsView: React.FC = () => {
           )}
         </button>
 
-        {/* PWA / Mobile instructions */}
-        <div className="p-4 bg-[#FFEADA]/60 rounded-3xl border border-[#FCD2B8]/60 flex items-start gap-3">
-          <Smartphone className="w-5 h-5 text-[#D96B43] flex-shrink-0 mt-0.5" />
-          <div className="flex-1">
-            <h4 className="text-xs font-bold text-rise-espresso">Pasang ke Layar Utama HP (PWA)</h4>
-            <p className="text-[11px] text-rise-espresso/80 mt-1 leading-relaxed">
-              Buka website ini lewat browser Chrome di Android, lalu pilih <strong>"Tambahkan ke Layar Utama" (Add to Home Screen)</strong> atau <strong>"Install Aplikasi"</strong>.
-            </p>
-            <div className="mt-2 text-[10px] text-rise-espresso/70 bg-white/70 p-2.5 rounded-xl border border-[#FCD2B8]/40 space-y-1">
-              <p>💡 <strong>Langkah Cepat di HP Android:</strong></p>
-              <p>1. Ketuk ikon titik tiga (⋮) di pojok kanan atas Chrome</p>
-              <p>2. Pilih <strong>"Tambahkan ke Layar utama"</strong> atau <strong>"Instal aplikasi"</strong></p>
-              <p>3. Ikon RISE harimau akan muncul di beranda HP Anda seperti aplikasi Play Store!</p>
+        {/* Panduan & How-To / About RISE */}
+        <div className="bg-white p-5 rounded-3xl border border-rise-border/60 shadow-card space-y-3">
+          <div className="flex items-center gap-2 text-rise-espresso font-bold text-sm pb-1">
+            <HelpCircle className="w-4 h-4 text-[#D96B43]" />
+            <span>Panduan & Tentang Aplikasi (How-To)</span>
+          </div>
+
+          <div className="space-y-2">
+            {/* Topic 1: PWA Install */}
+            <div className="border border-rise-border/70 rounded-2xl overflow-hidden bg-rise-bg/50">
+              <button
+                type="button"
+                onClick={() => toggleTopic('pwa')}
+                className="w-full p-3 flex items-center justify-between text-left text-xs font-bold text-rise-espresso hover:bg-white transition-colors"
+              >
+                <div className="flex items-center gap-2">
+                  <Smartphone className="w-4 h-4 text-[#D96B43]" />
+                  <span>Pasang Aplikasi ke Layar HP (PWA)</span>
+                </div>
+                {expandedTopic === 'pwa' ? (
+                  <ChevronUp className="w-4 h-4 text-rise-muted" />
+                ) : (
+                  <ChevronDown className="w-4 h-4 text-rise-muted" />
+                )}
+              </button>
+              {expandedTopic === 'pwa' && (
+                <div className="p-3.5 pt-0 text-xs text-rise-espresso/80 space-y-2 border-t border-rise-border/40 bg-white">
+                  <p className="leading-relaxed">
+                    RISE adalah <strong>Progressive Web App (PWA)</strong> yang dapat dipasang di Android dan berjalan seperti aplikasi native Play Store:
+                  </p>
+                  <ol className="list-decimal pl-4 space-y-1 text-[11px] text-rise-espresso/90 font-medium">
+                    <li>Buka RISE lewat browser <strong>Chrome</strong> di HP Android Anda.</li>
+                    <li>Ketuk ikon titik tiga (<strong>⋮</strong>) di pojok kanan atas browser.</li>
+                    <li>Pilih <strong>"Instal aplikasi"</strong> atau <strong>"Tambahkan ke Layar Utama"</strong>.</li>
+                    <li>Ikon harimau RISE akan langsung muncul di beranda HP Anda!</li>
+                  </ol>
+                </div>
+              )}
+            </div>
+
+            {/* Topic 2: Keuangan & Tabungan */}
+            <div className="border border-rise-border/70 rounded-2xl overflow-hidden bg-rise-bg/50">
+              <button
+                type="button"
+                onClick={() => toggleTopic('finance')}
+                className="w-full p-3 flex items-center justify-between text-left text-xs font-bold text-rise-espresso hover:bg-white transition-colors"
+              >
+                <div className="flex items-center gap-2">
+                  <Wallet className="w-4 h-4 text-[#2A9D8F]" />
+                  <span>Sistem Tabungan & Skala Boros</span>
+                </div>
+                {expandedTopic === 'finance' ? (
+                  <ChevronUp className="w-4 h-4 text-rise-muted" />
+                ) : (
+                  <ChevronDown className="w-4 h-4 text-rise-muted" />
+                )}
+              </button>
+              {expandedTopic === 'finance' && (
+                <div className="p-3.5 pt-0 text-xs text-rise-espresso/80 space-y-2 border-t border-rise-border/40 bg-white">
+                  <p className="leading-relaxed">
+                    Sistem keuangan RISE didesain ringkas berdasarkan arus kas harian Anda:
+                  </p>
+                  <ul className="space-y-1.5 text-[11px] text-rise-espresso/90 font-medium">
+                    <li>• <strong>Uang Masuk:</strong> Jatah uang saku harian Anda (default Rp 80.000) otomatis dihitung setiap hari + pemasukan ekstra yang Anda catat.</li>
+                    <li>• <strong>Uang Keluar:</strong> Pengeluaran makan, jajan, transportasi, atau belanja.</li>
+                    <li>• <strong>Saldo Sekarang:</strong> Sisa uang bersih Anda hari ini yang otomatis dihitung menjadi tabungan harian.</li>
+                    <li>• <strong>Skala Boros:</strong> Memberi indikator visual instan (Sangat Hemat, Wajar, Mendekati Batas, atau Boros) tanpa tulisan berbelit-belit.</li>
+                  </ul>
+                </div>
+              )}
+            </div>
+
+            {/* Topic 3: Alarm Jam HP */}
+            <div className="border border-rise-border/70 rounded-2xl overflow-hidden bg-rise-bg/50">
+              <button
+                type="button"
+                onClick={() => toggleTopic('alarm')}
+                className="w-full p-3 flex items-center justify-between text-left text-xs font-bold text-rise-espresso hover:bg-white transition-colors"
+              >
+                <div className="flex items-center gap-2">
+                  <Bell className="w-4 h-4 text-[#E25822]" />
+                  <span>Sambung Alarm ke Jam HP Android</span>
+                </div>
+                {expandedTopic === 'alarm' ? (
+                  <ChevronUp className="w-4 h-4 text-rise-muted" />
+                ) : (
+                  <ChevronDown className="w-4 h-4 text-rise-muted" />
+                )}
+              </button>
+              {expandedTopic === 'alarm' && (
+                <div className="p-3.5 pt-0 text-xs text-rise-espresso/80 space-y-2 border-t border-rise-border/40 bg-white">
+                  <p className="leading-relaxed">
+                    Anda bisa langsung menyetel jam HP dari jadwal sholat atau rutinitas harian:
+                  </p>
+                  <ol className="list-decimal pl-4 space-y-1 text-[11px] text-rise-espresso/90 font-medium">
+                    <li>Ketuk tombol <strong>Lonceng (🔔)</strong> di kartu jadwal sholat atau rutinitas.</li>
+                    <li>HP Android akan langsung membuka aplikasi <strong>Jam / Alarm</strong> bawaan (Google Clock, Xiaomi Clock, Samsung Clock, dll).</li>
+                    <li>Jam, menit, dan label alarm otomatis terisi. Anda cukup menekan tombol <strong>Simpan (Save)</strong> di HP.</li>
+                  </ol>
+                </div>
+              )}
+            </div>
+
+            {/* Topic 4: Tentang RISE */}
+            <div className="border border-rise-border/70 rounded-2xl overflow-hidden bg-rise-bg/50">
+              <button
+                type="button"
+                onClick={() => toggleTopic('about')}
+                className="w-full p-3 flex items-center justify-between text-left text-xs font-bold text-rise-espresso hover:bg-white transition-colors"
+              >
+                <div className="flex items-center gap-2">
+                  <Info className="w-4 h-4 text-[#3B82F6]" />
+                  <span>Tentang Aplikasi RISE</span>
+                </div>
+                {expandedTopic === 'about' ? (
+                  <ChevronUp className="w-4 h-4 text-rise-muted" />
+                ) : (
+                  <ChevronDown className="w-4 h-4 text-rise-muted" />
+                )}
+              </button>
+              {expandedTopic === 'about' && (
+                <div className="p-3.5 pt-0 text-xs text-rise-espresso/80 space-y-1.5 border-t border-rise-border/40 bg-white text-[11px]">
+                  <p><strong>RISE Routine & Habit Tracker</strong> v1.0.0</p>
+                  <p className="text-rise-muted">
+                    Dibuat dengan filosofi <em>Cozy Minimalist</em>: cepat, bersih, tanpa iklan, dan bebas dari teks berlebihan.
+                  </p>
+                  <p className="text-rise-muted">
+                    🔒 <strong>100% Offline-First:</strong> Semua data Anda disimpan langsung di memori lokal browser HP Anda. Anda dapat mencadangkan data kapan saja melalui tombol "Cadangkan Data" di bawah.
+                  </p>
+                </div>
+              )}
             </div>
           </div>
         </div>

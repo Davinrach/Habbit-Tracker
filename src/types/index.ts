@@ -62,12 +62,13 @@ export interface WeightRecord {
   note?: string;
 }
 
-export type ExpenseCategory = 'food' | 'snack' | 'transport' | 'bills' | 'lifestyle' | 'other';
+export type ExpenseCategory = 'food' | 'snack' | 'transport' | 'bills' | 'lifestyle' | 'income' | 'other';
 
 export interface ExpenseRecord {
   id: string;
   date: string; // YYYY-MM-DD
   amount: number;
+  type?: 'expense' | 'income'; // default 'expense'
   category: ExpenseCategory;
   note?: string;
   timestamp: string; // HH:mm

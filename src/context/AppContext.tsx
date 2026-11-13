@@ -36,7 +36,13 @@ interface AppContextType {
   addWeightRecord: (weightKg: number, note?: string, date?: string) => void;
   deleteWeightRecord: (id: string) => void;
   expenses: ExpenseRecord[];
-  addExpense: (amount: number, category: ExpenseCategory, note?: string, date?: string) => void;
+  addExpense: (
+    amount: number,
+    category: ExpenseCategory,
+    note?: string,
+    date?: string,
+    type?: 'expense' | 'income'
+  ) => void;
   deleteExpense: (id: string) => void;
   activeTab: 'today' | 'schedule' | 'worship' | 'fitness' | 'finance' | 'settings';
   setActiveTab: (tab: 'today' | 'schedule' | 'worship' | 'fitness' | 'finance' | 'settings') => void;
@@ -296,12 +302,14 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     amount: number,
     category: ExpenseCategory,
     note?: string,
-    date: string = selectedDate
+    date: string = selectedDate,
+    type: 'expense' | 'income' = 'expense'
   ) => {
     const newExpense: ExpenseRecord = {
       id: 'exp_' + Date.now(),
       date,
       amount,
+      type,
       category,
       note,
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),

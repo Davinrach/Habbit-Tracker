@@ -45,8 +45,8 @@ const AppContent: React.FC = () => {
           {renderActiveView()}
         </div>
 
-        {/* Floating Action Button */}
-        {(activeTab === 'today' || activeTab === 'schedule' || activeTab === 'finance') && (
+        {/* Floating Action Button (Only on Today & Schedule) */}
+        {(activeTab === 'today' || activeTab === 'schedule') && (
           <FloatingActionButton />
         )}
 
