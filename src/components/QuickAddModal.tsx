@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
-import { X, Sparkles, Dumbbell, Scale, Utensils, Check } from 'lucide-react';
-import { HabitCategory } from '../types';
+import { X, Sparkles, Dumbbell, Scale, Utensils, Check, Wallet } from 'lucide-react';
+import { HabitCategory, ExpenseCategory } from '../types';
 
 export const QuickAddModal: React.FC = () => {
   const {
@@ -12,6 +12,7 @@ export const QuickAddModal: React.FC = () => {
     addHabit,
     addPushUpSet,
     addWeightRecord,
+    addExpense,
     toggleMeal,
     selectedDate
   } = useApp();
@@ -29,6 +30,11 @@ export const QuickAddModal: React.FC = () => {
   // Weight Form
   const [weightKg, setWeightKg] = useState('70');
   const [weightNote, setWeightNote] = useState('');
+
+  // Expense Form
+  const [expenseAmount, setExpenseAmount] = useState('');
+  const [expenseCategory, setExpenseCategory] = useState<ExpenseCategory>('food');
+  const [expenseNote, setExpenseNote] = useState('');
 
   if (!isQuickModalOpen) return null;
 
@@ -63,6 +69,17 @@ export const QuickAddModal: React.FC = () => {
     }
   };
 
+  const handleAddExpense = (e: React.FormEvent) => {
+    e.preventDefault();
+    const val = parseInt(expenseAmount.replace(/\D/g, ''), 10);
+    if (!isNaN(val) && val > 0) {
+      addExpense(val, expenseCategory, expenseNote.trim(), selectedDate);
+      setExpenseAmount('');
+      setExpenseNote('');
+      setIsQuickModalOpen(false);
+    }
+  };
+
   return (
     <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/40 backdrop-blur-xs animate-fade-in">
       <div 
@@ -88,6 +105,7 @@ export const QuickAddModal: React.FC = () => {
         {/* Tab selection in modal */}
         <div className="flex items-center gap-1.5 py-3 border-b border-rise-border/40 overflow-x-auto no-scrollbar">
           {[
+            { id: 'expense' as const, label: 'Uang', icon: Wallet },
             { id: 'habit' as const, label: 'Rutinitas', icon: Sparkles },
             { id: 'pushup' as const, label: 'Push Up', icon: Dumbbell },
             { id: 'weight' as const, label: 'Timbangan', icon: Scale },
@@ -315,6 +333,92 @@ export const QuickAddModal: React.FC = () => {
               </button>
             ))}
           </div>
+        )}
+
+        {/* 5. Expense Form */}
+        {quickModalTab === 'expense' && (
+          <form onSubmit={handleAddExpense} className="py-4 space-y-3.5">
+            <div>
+              <label className="text-xs font-semibold text-rise-muted block mb-1">
+                Nominal Pengeluaran (Rp)
+              </label>
+              <div className="relative">
+                <span className="absolute left-3.5 top-3.5 text-xs font-bold text-rise-muted">Rp</span>
+                <input
+                  type="number"
+                  placeholder="Cth: 15000"
+                  value={expenseAmount}
+                  onChange={(e) => setExpenseAmount(e.target.value)}
+                  className="w-full h-12 pl-10 pr-3.5 rounded-xl bg-rise-bg border border-rise-border text-base font-bold text-rise-espresso focus:outline-none focus:border-rise-espresso"
+                  required
+                  autoFocus
+                />
+              </div>
+            </div>
+
+            {/* Quick chips */}
+            <div className="grid grid-cols-3 gap-1.5">
+              {[5000, 10000, 15000, 20000, 25000, 50000].map((amt) => (
+                <button
+                  key={amt}
+                  type="button"
+                  onClick={() => setExpenseAmount(amt.toString())}
+                  className="py-1.5 px-2 bg-rise-bg hover:bg-[#FFEADA] border border-rise-border/70 rounded-xl text-xs font-bold text-rise-espresso active:scale-95 transition-all text-center"
+                >
+                  +{amt.toLocaleString('id-ID')}
+                </button>
+              ))}
+            </div>
+
+            <div>
+              <label className="text-xs font-semibold text-rise-muted block mb-1">
+                Kategori
+              </label>
+              <div className="grid grid-cols-3 gap-1.5">
+                {[
+                  { id: 'food' as const, label: '🍱 Makan' },
+                  { id: 'snack' as const, label: '🧋 Jajan' },
+                  { id: 'transport' as const, label: '🛵 Transport' },
+                  { id: 'bills' as const, label: '📦 Belanja' },
+                  { id: 'lifestyle' as const, label: '🎮 Hiburan' },
+                  { id: 'other' as const, label: '💸 Lainnya' },
+                ].map((cat) => (
+                  <button
+                    key={cat.id}
+                    type="button"
+                    onClick={() => setExpenseCategory(cat.id)}
+                    className={`py-2 px-2 rounded-xl text-xs font-bold border transition-all text-center ${
+                      expenseCategory === cat.id
+                        ? 'bg-[#362215] text-white border-[#362215] shadow-xs'
+                        : 'bg-white border-rise-border text-rise-muted hover:bg-rise-bg'
+                    }`}
+                  >
+                    {cat.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <label className="text-xs font-semibold text-rise-muted block mb-1">
+                Catatan (opsional)
+              </label>
+              <input
+                type="text"
+                placeholder="Misal: Nasi uduk sarapan"
+                value={expenseNote}
+                onChange={(e) => setExpenseNote(e.target.value)}
+                className="w-full h-11 px-3.5 rounded-xl bg-rise-bg border border-rise-border text-xs text-rise-espresso focus:outline-none"
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="w-full h-12 bg-[#362215] text-white font-bold text-sm rounded-xl shadow-sm active:scale-95 transition-all hover:bg-[#25170E] flex items-center justify-center gap-1.5"
+            >
+              + Simpan Pengeluaran
+            </button>
+          </form>
         )}
       </div>
     </div>

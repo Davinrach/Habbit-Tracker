@@ -62,6 +62,17 @@ export interface WeightRecord {
   note?: string;
 }
 
+export type ExpenseCategory = 'food' | 'snack' | 'transport' | 'bills' | 'lifestyle' | 'other';
+
+export interface ExpenseRecord {
+  id: string;
+  date: string; // YYYY-MM-DD
+  amount: number;
+  category: ExpenseCategory;
+  note?: string;
+  timestamp: string; // HH:mm
+}
+
 export interface UserProfile {
   name: string;
   avatar: string;
@@ -70,5 +81,6 @@ export interface UserProfile {
   weightGoalKg: number;
   pushUpDailyGoal: number;
   waterDailyGoal: number;
+  dailyPocketMoney: number;
 }
 

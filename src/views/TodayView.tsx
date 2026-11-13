@@ -16,7 +16,8 @@ import {
   Minus, 
   Check, 
   ChevronRight,
-  Bell
+  Bell,
+  Wallet
 } from 'lucide-react';
 import { DayPrayerStatus } from '../types';
 
@@ -31,6 +32,7 @@ export const TodayView: React.FC = () => {
     updateWater,
     pushUpSets,
     addPushUpSet,
+    expenses,
     selectedDate,
     user,
     setActiveTab,
@@ -66,6 +68,11 @@ export const TodayView: React.FC = () => {
   const todayPushUps = pushUpSets
     .filter((s) => s.date === selectedDate)
     .reduce((sum, s) => sum + s.reps, 0);
+
+  const todayExpenses = expenses.filter((e) => e.date === selectedDate);
+  const totalSpent = todayExpenses.reduce((sum, e) => sum + e.amount, 0);
+  const dailyBudget = user.dailyPocketMoney || 80000;
+  const remainingMoney = dailyBudget - totalSpent;
 
   const completedHabits = habits.filter((h) => h.completedDates.includes(selectedDate)).length;
 
@@ -389,6 +396,66 @@ export const TodayView: React.FC = () => {
                 </button>
               );
             })}
+          </div>
+        </div>
+
+        {/* Keuangan & Skala Boros Quick Card */}
+        <div 
+          onClick={() => setActiveTab('finance')}
+          className="p-4 rounded-3xl bg-white border border-rise-border/80 shadow-card cursor-pointer hover:border-[#E8733E]/50 transition-all active:scale-[0.99]"
+        >
+          <div className="flex items-center justify-between mb-2.5">
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-xl bg-[#FFEADA] text-[#E8733E] flex items-center justify-center flex-shrink-0">
+                <Wallet className="w-4 h-4 stroke-[2.2]" />
+              </div>
+              <div>
+                <h4 className="text-xs font-bold text-rise-espresso">Uang Saku & Skala Boros</h4>
+                <p className="text-[11px] font-semibold text-rise-muted mt-0.5">
+                  Terpakai: Rp {totalSpent.toLocaleString('id-ID')} / {(dailyBudget / 1000).toFixed(0)}k
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-1.5">
+              <span className={`text-[10px] font-bold px-2.5 py-1 rounded-xl border ${
+                totalSpent === 0
+                  ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                  : totalSpent > dailyBudget
+                  ? 'bg-rose-50 text-rose-700 border-rose-200'
+                  : totalSpent > dailyBudget * 0.75
+                  ? 'bg-amber-50 text-amber-700 border-amber-200'
+                  : 'bg-green-50 text-green-700 border-green-200'
+              }`}>
+                {totalSpent === 0
+                  ? '🌟 Utuh'
+                  : totalSpent > dailyBudget
+                  ? '🔥 Boros'
+                  : totalSpent > dailyBudget * 0.75
+                  ? '⚠️ Menipis'
+                  : '👍 Hemat'}
+              </span>
+              <ChevronRight className="w-4 h-4 text-rise-muted" />
+            </div>
+          </div>
+
+          {/* Progress bar */}
+          <div className="w-full bg-[#EFE9DF] h-2 rounded-full overflow-hidden mb-1.5">
+            <div
+              className={`h-full rounded-full transition-all duration-500 ${
+                totalSpent > dailyBudget
+                  ? 'bg-rose-500'
+                  : totalSpent > dailyBudget * 0.75
+                  ? 'bg-amber-500'
+                  : 'bg-emerald-500'
+              }`}
+              style={{ width: `${Math.min(100, Math.round((totalSpent / dailyBudget) * 100))}%` }}
+            />
+          </div>
+
+          <div className="flex items-center justify-between text-[10px] text-rise-muted font-medium">
+            <span>Sisa: <strong className={remainingMoney < 0 ? 'text-rose-600' : 'text-emerald-600'}>Rp {remainingMoney.toLocaleString('id-ID')}</strong></span>
+            <span className="text-[#E8733E] font-bold">+ Catat Pengeluaran →</span>
           </div>
         </div>
       </div>

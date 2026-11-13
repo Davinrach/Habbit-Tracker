@@ -4,6 +4,7 @@ import { TodayView } from './views/TodayView';
 import { ScheduleView } from './views/ScheduleView';
 import { PrayerMealView } from './views/PrayerMealView';
 import { FitnessView } from './views/FitnessView';
+import { FinanceView } from './views/FinanceView';
 import { SettingsView } from './views/SettingsView';
 import { BottomNav } from './components/BottomNav';
 import { FloatingActionButton } from './components/FloatingActionButton';
@@ -22,6 +23,8 @@ const AppContent: React.FC = () => {
         return <PrayerMealView />;
       case 'fitness':
         return <FitnessView />;
+      case 'finance':
+        return <FinanceView />;
       case 'settings':
         return <SettingsView />;
       default:
@@ -43,7 +46,7 @@ const AppContent: React.FC = () => {
         </div>
 
         {/* Floating Action Button */}
-        {(activeTab === 'today' || activeTab === 'schedule') && (
+        {(activeTab === 'today' || activeTab === 'schedule' || activeTab === 'finance') && (
           <FloatingActionButton />
         )}
 

@@ -6,6 +6,8 @@ import {
   MealType,
   PushUpSet,
   WeightRecord,
+  ExpenseRecord,
+  ExpenseCategory,
   UserProfile,
   PrayerTimes
 } from '../types';
@@ -33,12 +35,15 @@ interface AppContextType {
   weightRecords: WeightRecord[];
   addWeightRecord: (weightKg: number, note?: string, date?: string) => void;
   deleteWeightRecord: (id: string) => void;
-  activeTab: 'today' | 'schedule' | 'worship' | 'fitness' | 'settings';
-  setActiveTab: (tab: 'today' | 'schedule' | 'worship' | 'fitness' | 'settings') => void;
+  expenses: ExpenseRecord[];
+  addExpense: (amount: number, category: ExpenseCategory, note?: string, date?: string) => void;
+  deleteExpense: (id: string) => void;
+  activeTab: 'today' | 'schedule' | 'worship' | 'fitness' | 'finance' | 'settings';
+  setActiveTab: (tab: 'today' | 'schedule' | 'worship' | 'fitness' | 'finance' | 'settings') => void;
   isQuickModalOpen: boolean;
   setIsQuickModalOpen: (open: boolean) => void;
-  quickModalTab: 'habit' | 'pushup' | 'weight' | 'meal';
-  setQuickModalTab: (tab: 'habit' | 'pushup' | 'weight' | 'meal') => void;
+  quickModalTab: 'habit' | 'pushup' | 'weight' | 'meal' | 'expense';
+  setQuickModalTab: (tab: 'habit' | 'pushup' | 'weight' | 'meal' | 'expense') => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -59,20 +64,25 @@ const DEFAULT_USER: UserProfile = {
   weightGoalKg: 65,
   pushUpDailyGoal: 50,
   waterDailyGoal: 8,
+  dailyPocketMoney: 80000,
 };
 
 const INITIAL_HABITS: Habit[] = [];
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [selectedDate, setSelectedDate] = useState<string>(getTodayString());
-  const [activeTab, setActiveTab] = useState<'today' | 'schedule' | 'worship' | 'fitness' | 'settings'>('today');
+  const [activeTab, setActiveTab] = useState<'today' | 'schedule' | 'worship' | 'fitness' | 'finance' | 'settings'>('today');
   const [isQuickModalOpen, setIsQuickModalOpen] = useState(false);
-  const [quickModalTab, setQuickModalTab] = useState<'habit' | 'pushup' | 'weight' | 'meal'>('habit');
+  const [quickModalTab, setQuickModalTab] = useState<'habit' | 'pushup' | 'weight' | 'meal' | 'expense'>('habit');
 
   // User Profile
   const [user, setUser] = useState<UserProfile>(() => {
     const saved = localStorage.getItem('rise_user_v2');
-    return saved ? JSON.parse(saved) : DEFAULT_USER;
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      return { ...DEFAULT_USER, ...parsed };
+    }
+    return DEFAULT_USER;
   });
 
   useEffect(() => {
@@ -267,6 +277,37 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setWeightRecords((prev) => prev.filter((w) => w.id !== id));
   };
 
+  // Daily Expenses (Clean Slate)
+  const [expenses, setExpenses] = useState<ExpenseRecord[]>(() => {
+    const saved = localStorage.getItem('rise_expenses_v1');
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem('rise_expenses_v1', JSON.stringify(expenses));
+  }, [expenses]);
+
+  const addExpense = (
+    amount: number,
+    category: ExpenseCategory,
+    note?: string,
+    date: string = selectedDate
+  ) => {
+    const newExpense: ExpenseRecord = {
+      id: 'exp_' + Date.now(),
+      date,
+      amount,
+      category,
+      note,
+      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+    };
+    setExpenses((prev) => [newExpense, ...prev]);
+  };
+
+  const deleteExpense = (id: string) => {
+    setExpenses((prev) => prev.filter((e) => e.id !== id));
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -291,6 +332,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         weightRecords,
         addWeightRecord,
         deleteWeightRecord,
+        expenses,
+        addExpense,
+        deleteExpense,
         activeTab,
         setActiveTab,
         isQuickModalOpen,

@@ -76,3 +76,4 @@ export const InstallPromptBanner: React.FC = () => {
     </div>
   );
 };
+

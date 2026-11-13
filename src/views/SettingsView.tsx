@@ -5,7 +5,7 @@ import { User, MapPin, Target, Smartphone, Download, RotateCcw, Check } from 'lu
 import { Avatar } from '../components/Avatar';
 
 export const SettingsView: React.FC = () => {
-  const { user, updateUser, habits, pushUpSets, weightRecords } = useApp();
+  const { user, updateUser, habits, pushUpSets, weightRecords, setActiveTab } = useApp();
   const [nameInput, setNameInput] = useState(user.name);
   const [avatarInput, setAvatarInput] = useState(user.avatar || 'tiger');
   const [cityInput, setCityInput] = useState(user.city);
@@ -13,6 +13,7 @@ export const SettingsView: React.FC = () => {
   const [pushUpGoalInput, setPushUpGoalInput] = useState(user.pushUpDailyGoal.toString());
   const [weightGoalInput, setWeightGoalInput] = useState(user.weightGoalKg.toString());
   const [waterGoalInput, setWaterGoalInput] = useState(user.waterDailyGoal.toString());
+  const [pocketMoneyInput, setPocketMoneyInput] = useState((user.dailyPocketMoney || 80000).toString());
   const [savedNotice, setSavedNotice] = useState(false);
 
   const handleSave = (e: React.FormEvent) => {
@@ -25,6 +26,7 @@ export const SettingsView: React.FC = () => {
       pushUpDailyGoal: parseInt(pushUpGoalInput) || 50,
       weightGoalKg: parseFloat(weightGoalInput) || 65,
       waterDailyGoal: parseInt(waterGoalInput) || 8,
+      dailyPocketMoney: parseInt(pocketMoneyInput.replace(/\D/g, '')) || 80000,
     });
     setSavedNotice(true);
     setTimeout(() => setSavedNotice(false), 2500);
@@ -56,9 +58,18 @@ export const SettingsView: React.FC = () => {
   return (
     <div className="pb-28">
       {/* Header */}
-      <div className="px-6 pt-5 pb-2">
-        <h1 className="text-2xl font-bold text-rise-espresso">Pengaturan</h1>
-        <p className="text-xs text-rise-muted mt-0.5">Sesuaikan preferensi & profil akun Anda</p>
+      <div className="px-6 pt-5 pb-2 flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-bold text-rise-espresso">Pengaturan</h1>
+          <p className="text-xs text-rise-muted mt-0.5">Sesuaikan preferensi & profil akun Anda</p>
+        </div>
+        <button
+          type="button"
+          onClick={() => setActiveTab('today')}
+          className="px-3.5 py-1.5 bg-rise-bg border border-rise-border/80 text-rise-espresso rounded-xl text-xs font-bold hover:bg-white active:scale-95 transition-all shadow-2xs"
+        >
+          ← Kembali
+        </button>
       </div>
 
       <form onSubmit={handleSave} className="px-5 py-3 space-y-4">
@@ -198,6 +209,26 @@ export const SettingsView: React.FC = () => {
                 />
                 <span className="absolute right-3 top-2 text-xs font-semibold text-rise-muted">gelas/hari</span>
               </div>
+            </div>
+
+            <div className="col-span-2">
+              <label className="text-xs font-semibold text-rise-muted block mb-1">
+                Uang Saku Harian (Rp)
+              </label>
+              <div className="relative">
+                <span className="absolute left-3.5 top-2 text-xs font-bold text-rise-muted">Rp</span>
+                <input
+                  type="number"
+                  value={pocketMoneyInput}
+                  onChange={(e) => setPocketMoneyInput(e.target.value)}
+                  className="w-full pl-10 pr-16 py-2 rounded-xl bg-rise-bg border border-rise-border text-sm font-semibold text-rise-espresso focus:outline-none"
+                  placeholder="80000"
+                />
+                <span className="absolute right-3 top-2 text-xs font-semibold text-rise-muted">/hari</span>
+              </div>
+              <span className="text-[10px] text-rise-muted mt-1 block">
+                Digunakan untuk mengukur skala hemat vs boros harian Anda (misal: 70.000 – 80.000).
+              </span>
             </div>
           </div>
         </div>
