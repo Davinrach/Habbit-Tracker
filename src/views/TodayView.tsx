@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Header } from '../components/Header';
 import { DateStrip } from '../components/DateStrip';
 import { TimelineRoutine } from '../components/TimelineRoutine';
+import { InstallPromptBanner } from '../components/InstallPromptBanner';
 import { useApp } from '../context/AppContext';
 import { getNextPrayer } from '../utils/prayer';
 import { sound } from '../utils/sound';
@@ -113,6 +114,9 @@ export const TodayView: React.FC = () => {
     <div className="pb-28 space-y-4">
       {/* 1. Header */}
       <Header />
+
+      {/* PWA Home Screen Install Banner */}
+      <InstallPromptBanner />
 
       {/* 2. Date Strip Navigation */}
       <DateStrip />

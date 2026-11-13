@@ -220,11 +220,17 @@ export const SettingsView: React.FC = () => {
         {/* PWA / Mobile instructions */}
         <div className="p-4 bg-[#FFEADA]/60 rounded-3xl border border-[#FCD2B8]/60 flex items-start gap-3">
           <Smartphone className="w-5 h-5 text-[#D96B43] flex-shrink-0 mt-0.5" />
-          <div>
-            <h4 className="text-xs font-bold text-rise-espresso">Buka di Smartphone (PWA)</h4>
+          <div className="flex-1">
+            <h4 className="text-xs font-bold text-rise-espresso">Pasang ke Layar Utama HP (PWA)</h4>
             <p className="text-[11px] text-rise-espresso/80 mt-1 leading-relaxed">
-              Buka website ini lewat browser Chrome atau Safari di smartphone Anda, lalu pilih <strong>"Tambahkan ke Layar Utama" (Add to Home Screen)</strong> untuk pengalaman aplikasi mobile penuh!
+              Buka website ini lewat browser Chrome di Android, lalu pilih <strong>"Tambahkan ke Layar Utama" (Add to Home Screen)</strong> atau <strong>"Install Aplikasi"</strong>.
             </p>
+            <div className="mt-2 text-[10px] text-rise-espresso/70 bg-white/70 p-2.5 rounded-xl border border-[#FCD2B8]/40 space-y-1">
+              <p>💡 <strong>Langkah Cepat di HP Android:</strong></p>
+              <p>1. Ketuk ikon titik tiga (⋮) di pojok kanan atas Chrome</p>
+              <p>2. Pilih <strong>"Tambahkan ke Layar utama"</strong> atau <strong>"Instal aplikasi"</strong></p>
+              <p>3. Ikon RISE harimau akan muncul di beranda HP Anda seperti aplikasi Play Store!</p>
+            </div>
           </div>
         </div>
 

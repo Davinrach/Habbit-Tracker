@@ -1,22 +1,31 @@
 {
   "short_name": "RISE",
   "name": "RISE - Habit & Routine Tracker",
+  "description": "Aplikasi habit tracker modern dan minimalis untuk rutinitas, ibadah, dan kebugaran.",
   "icons": [
+    {
+      "src": "/icon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "any maskable"
+    },
     {
       "src": "/icon-192.png",
       "type": "image/png",
-      "sizes": "192x192"
+      "sizes": "192x192",
+      "purpose": "any maskable"
     },
     {
       "src": "/icon-512.png",
       "type": "image/png",
-      "sizes": "512x512"
+      "sizes": "512x512",
+      "purpose": "any maskable"
     }
   ],
   "start_url": "/",
+  "scope": "/",
   "background_color": "#FAF7F2",
   "theme_color": "#FAF7F2",
   "display": "standalone",
   "orientation": "portrait"
 }
-
