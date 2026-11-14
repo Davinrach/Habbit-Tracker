@@ -1,16 +1,14 @@
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { DateStrip } from '../components/DateStrip';
-import { Plus, Trash2, CheckCircle2, Clock, Sparkles, Edit3, Bell, LayoutGrid, List } from 'lucide-react';
+import { Plus, Trash2, CheckCircle2, Clock, Sparkles, Edit3, Bell } from 'lucide-react';
 import { EditHabitModal } from '../components/EditHabitModal';
-import { WeeklyHabitMatrix } from '../components/WeeklyHabitMatrix';
 import { setAndroidAlarm } from '../utils/alarm';
 import { Habit } from '../types';
 
 export const ScheduleView: React.FC = () => {
   const { habits, toggleHabit, deleteHabit, selectedDate, setIsQuickModalOpen, setQuickModalTab } = useApp();
   const [filter, setFilter] = useState<string>('all');
-  const [viewMode, setViewMode] = useState<'matrix' | 'list'>('matrix');
   const [editingHabit, setEditingHabit] = useState<Habit | null>(null);
   const [toastMsg, setToastMsg] = useState<string | null>(null);
 
@@ -54,63 +52,27 @@ export const ScheduleView: React.FC = () => {
         </button>
       </div>
 
-      {/* View Mode Switcher */}
-      <div className="px-5 py-2">
-        <div className="p-1 bg-rise-bg rounded-2xl border border-rise-border/80 flex items-center gap-1 shadow-2xs">
+      <DateStrip />
+
+      {/* Category Filter Pills */}
+      <div className="px-5 py-2 flex items-center gap-2 overflow-x-auto no-scrollbar">
+        {categories.map((c) => (
           <button
-            type="button"
-            onClick={() => setViewMode('matrix')}
-            className={`flex-1 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
-              viewMode === 'matrix'
-                ? 'bg-white text-rise-espresso shadow-2xs'
-                : 'text-rise-muted hover:text-rise-espresso'
+            key={c.id}
+            onClick={() => setFilter(c.id)}
+            className={`px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all ${
+              filter === c.id
+                ? 'bg-rise-espresso text-white shadow-sm'
+                : 'bg-white text-rise-muted border border-rise-border/60 hover:bg-rise-peach/30'
             }`}
           >
-            <LayoutGrid className="w-3.5 h-3.5 text-[#E8733E]" />
-            <span>Matriks 7 Hari</span>
+            {c.label}
           </button>
-          <button
-            type="button"
-            onClick={() => setViewMode('list')}
-            className={`flex-1 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
-              viewMode === 'list'
-                ? 'bg-white text-rise-espresso shadow-2xs'
-                : 'text-rise-muted hover:text-rise-espresso'
-            }`}
-          >
-            <List className="w-3.5 h-3.5 text-rise-espresso" />
-            <span>Daftar Harian</span>
-          </button>
-        </div>
+        ))}
       </div>
 
-      {viewMode === 'matrix' ? (
-        <div className="px-5 py-2">
-          <WeeklyHabitMatrix />
-        </div>
-      ) : (
-        <>
-          <DateStrip />
-
-          {/* Category Filter Pills */}
-          <div className="px-5 py-2 flex items-center gap-2 overflow-x-auto no-scrollbar">
-            {categories.map((c) => (
-              <button
-                key={c.id}
-                onClick={() => setFilter(c.id)}
-                className={`px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all ${
-                  filter === c.id
-                    ? 'bg-rise-espresso text-white shadow-sm'
-                    : 'bg-white text-rise-muted border border-rise-border/60 hover:bg-rise-peach/30'
-                }`}
-              >
-                {c.label}
-              </button>
-            ))}
-          </div>
-
-          {/* Habits List */}
-          <div className="px-5 py-3 space-y-3">
+      {/* Habits List */}
+      <div className="px-5 py-3 space-y-3">
             {filteredHabits.length === 0 ? (
               <div className="text-center py-12 bg-white/60 rounded-3xl border border-rise-border/50 p-6">
                 <Sparkles className="w-10 h-10 text-rise-muted/40 mx-auto mb-2" />
@@ -196,8 +158,6 @@ export const ScheduleView: React.FC = () => {
               })
             )}
           </div>
-        </>
-      )}
 
       {/* Edit Modal */}
       {editingHabit && (
