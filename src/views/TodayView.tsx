@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Header } from '../components/Header';
 import { DateStrip } from '../components/DateStrip';
 import { TimelineRoutine } from '../components/TimelineRoutine';
+import { WeeklyHabitMatrix } from '../components/WeeklyHabitMatrix';
 import { InstallPromptBanner } from '../components/InstallPromptBanner';
 import { useApp } from '../context/AppContext';
 import { getNextPrayer } from '../utils/prayer';
@@ -466,6 +467,11 @@ export const TodayView: React.FC = () => {
 
       {/* 5. Daily Routine Timeline Section */}
       <TimelineRoutine />
+
+      {/* 6. Weekly Habit Matrix Recap Widget */}
+      <div className="px-5 pt-1">
+        <WeeklyHabitMatrix />
+      </div>
 
       {/* Floating Toast Feedback for Android Alarm */}
       {toastMsg && (

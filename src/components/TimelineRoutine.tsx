@@ -91,16 +91,25 @@ export const TimelineRoutine: React.FC = () => {
       {/* Section Header */}
       <div className="flex items-center justify-between mb-4 mt-1">
         <h2 className="text-base font-bold text-rise-espresso tracking-tight">
-          Daily routine
+          Rutinitas Harian
         </h2>
-        {habits.length > 0 && (
+        <div className="flex items-center gap-2.5">
           <button
-            onClick={() => setActiveTab('schedule')}
-            className="text-xs font-semibold text-[#8C857E] hover:text-rise-espresso transition-colors"
+            onClick={handleAddFirstHabit}
+            className="text-xs font-bold text-[#E8733E] hover:underline flex items-center gap-1"
           >
-            See all
+            <Plus className="w-3.5 h-3.5 stroke-[2.5]" />
+            <span>Tambah</span>
           </button>
-        )}
+          {habits.length > 0 && (
+            <button
+              onClick={() => setActiveTab('schedule')}
+              className="text-xs font-semibold text-[#8C857E] hover:text-rise-espresso transition-colors pl-1"
+            >
+              Semua
+            </button>
+          )}
+        </div>
       </div>
 
       {/* Clean Slate Empty State */}

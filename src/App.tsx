@@ -7,7 +7,6 @@ import { FitnessView } from './views/FitnessView';
 import { FinanceView } from './views/FinanceView';
 import { SettingsView } from './views/SettingsView';
 import { BottomNav } from './components/BottomNav';
-import { FloatingActionButton } from './components/FloatingActionButton';
 import { QuickAddModal } from './components/QuickAddModal';
 
 const AppContent: React.FC = () => {
@@ -44,11 +43,6 @@ const AppContent: React.FC = () => {
         <div className="flex-1 w-full">
           {renderActiveView()}
         </div>
-
-        {/* Floating Action Button (Only on Today & Schedule) */}
-        {(activeTab === 'today' || activeTab === 'schedule') && (
-          <FloatingActionButton />
-        )}
 
         {/* Quick Add Modal */}
         <QuickAddModal />
