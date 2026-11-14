@@ -295,14 +295,22 @@ export const SettingsView: React.FC = () => {
               {expandedTopic === 'pwa' && (
                 <div className="p-3.5 pt-0 text-xs text-rise-espresso/80 space-y-2 border-t border-rise-border/40 bg-white">
                   <p className="leading-relaxed">
-                    RISE adalah <strong>Progressive Web App (PWA)</strong> yang dapat dipasang di Android dan berjalan seperti aplikasi native Play Store:
+                    RISE adalah <strong>Progressive Web App (PWA)</strong> yang dapat dipasang di Android dan berjalan seperti aplikasi Play Store:
                   </p>
                   <ol className="list-decimal pl-4 space-y-1 text-[11px] text-rise-espresso/90 font-medium">
                     <li>Buka RISE lewat browser <strong>Chrome</strong> di HP Android Anda.</li>
                     <li>Ketuk ikon titik tiga (<strong>⋮</strong>) di pojok kanan atas browser.</li>
                     <li>Pilih <strong>"Instal aplikasi"</strong> atau <strong>"Tambahkan ke Layar Utama"</strong>.</li>
-                    <li>Ikon harimau RISE akan langsung muncul di beranda HP Anda!</li>
+                    <li>Ikon harimau RISE akan langsung muncul di layar utama HP Anda.</li>
                   </ol>
+                  <div className="mt-2 p-2.5 bg-[#FFEADA]/50 rounded-xl border border-[#FCD2B8]/50 text-[11px] text-rise-espresso/90">
+                    <p className="font-bold text-rise-espresso flex items-center gap-1">
+                      <span>⚡</span> <span>Fitur Pintasan Cepat (Widget Aksi):</span>
+                    </p>
+                    <p className="mt-1 leading-relaxed">
+                      Setelah terpasang, <strong>tekan & tahan (long-press) ikon RISE</strong> di layar HP Anda. Akan muncul menu pintasan langsung ke <em>Tabungan</em>, <em>Jadwal Sholat</em>, atau <em>Fitness</em>. Di HP Android, pintasan ini bisa Anda tahan lalu tarik (drag) ke Home Screen sebagai tombol widget 1-ketuk!
+                    </p>
+                  </div>
                 </div>
               )}
             </div>

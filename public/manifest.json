@@ -27,5 +27,35 @@
   "background_color": "#FAF7F2",
   "theme_color": "#FAF7F2",
   "display": "standalone",
-  "orientation": "portrait"
+  "orientation": "portrait",
+  "shortcuts": [
+    {
+      "name": "Catat Tabungan & Saldo",
+      "short_name": "Tabungan",
+      "description": "Buka pencatatan tabungan dan saldo harian",
+      "url": "/?tab=finance",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Jadwal Sholat & Puasa",
+      "short_name": "Ibadah",
+      "description": "Cek jadwal waktu sholat dan pasang alarm",
+      "url": "/?tab=worship",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Push Up & Fitness",
+      "short_name": "Fitness",
+      "description": "Log repetisi push up dan timbangan badan",
+      "url": "/?tab=fitness",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Jadwal Rutinitas",
+      "short_name": "Jadwal",
+      "description": "Cek agenda waktu dan rutinitas harian",
+      "url": "/?tab=schedule",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
 }

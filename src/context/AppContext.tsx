@@ -88,9 +88,22 @@ const DEFAULT_USER: UserProfile = {
 
 const INITIAL_HABITS: Habit[] = [];
 
+const getInitialTab = (): 'today' | 'schedule' | 'worship' | 'fitness' | 'finance' | 'settings' => {
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const tab = params.get('tab');
+    if (tab && ['today', 'schedule', 'worship', 'fitness', 'finance', 'settings'].includes(tab)) {
+      return tab as any;
+    }
+  } catch {
+    // ignore
+  }
+  return 'today';
+};
+
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [selectedDate, setSelectedDate] = useState<string>(getTodayString());
-  const [activeTab, setActiveTab] = useState<'today' | 'schedule' | 'worship' | 'fitness' | 'finance' | 'settings'>('today');
+  const [activeTab, setActiveTab] = useState<'today' | 'schedule' | 'worship' | 'fitness' | 'finance' | 'settings'>(getInitialTab);
   const [isQuickModalOpen, setIsQuickModalOpen] = useState(false);
   const [quickModalTab, setQuickModalTab] = useState<'habit' | 'pushup' | 'weight' | 'meal' | 'expense'>('habit');
 
